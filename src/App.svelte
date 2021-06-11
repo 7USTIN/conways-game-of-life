@@ -1,9 +1,11 @@
 <script lang="ts">
-
+	import Grid from "./components/Grid.svelte";
+	import Controls from "./components/Controls.svelte";
 </script>
 
 <main>
-	<h1>Hello World</h1>
+	<Grid />
+	<Controls />
 </main>
 
 <style lang="scss">
