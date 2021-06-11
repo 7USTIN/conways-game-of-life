@@ -1,30 +1,31 @@
 <script lang="ts">
+    import Cell from "./Cell.svelte"
+
     let width: number
     let height: number
     let grid = []
 
-    $: numCols = Math.floor(width / 15)
-    $: numRows = Math.floor(height / 15)
+    $: numCols = Math.floor(width / 16)
+    $: numRows = Math.floor(height / 16)
 
-    $: if(numCols) {
+    const generateGrid = () => {
         grid = []
 
         for(let i = 0; i < numRows; i++) {
             grid.push(Array(numCols).fill(0))
         }
     }
+    
+    $: if(numRows || numCols) generateGrid()
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
 <section>
     <div class="grid" style={`grid-template-columns: repeat(${numCols}, 1fr)`}>
-        {#each grid as row, rowIdx (rowIdx)}
-            {#each row as cell, cellIdx (cellIdx)}
-                <div 
-                    class="cell" 
-                    style={`border-left: ${!cellIdx && "1px solid #191919"}; border-top: ${!rowIdx && "1px solid #191919"};`} 
-                />
+        {#each grid as row, r (r)}
+            {#each row as cell, c (c)}
+                <Cell bind:cell {r} {c} />
             {/each}
         {/each}
     </div>
@@ -35,8 +36,8 @@
         width: 100vw;
         height: 100vh;
         display: flex;
-        justify-content: center;
-        align-items: center;
+        // justify-content: center;
+        // align-items: center;
 
         .grid {
             display: grid;
@@ -49,13 +50,6 @@
             height: -moz-fit-content; // firefox/gecko
             height: -webkit-fit-content; // chrome
             height: fit-content;
-
-            .cell {
-                width: 15px;
-                height: 15px;
-                border-right: 1px solid #191919;
-                border-bottom: 1px solid #191919;
-            }
         }
     }
 
