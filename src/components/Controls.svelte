@@ -1,11 +1,40 @@
 <script lang="ts">
+    import { running } from "../utils/stores"
 
+    const toggleRunning = () => running.update(prev => !prev)
+
+    $: console.log($running)
 </script>
 
 <section>
-    
+    <button on:click={toggleRunning}>{$running ? "Stop" : "Start"} [space]</button>
 </section>
 
 <style lang="scss">
+    section {
+        position: fixed;
+        width: 100vw;
+        height: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgb(117, 117, 117, 0.33);
+        padding: 15px;
 
+        button {
+            border: none;
+            border-radius: 5px;
+            background: rgb(76, 115, 230);
+            padding: 10px 15px;
+            font-weight: 500;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 100ms;
+
+            &:hover {
+                background: hsl(225, 75%, 52.5%);
+            }
+        }
+    }
 </style>

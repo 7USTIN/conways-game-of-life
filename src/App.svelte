@@ -19,11 +19,12 @@
 
 	:global(body) {
 		font-family: "Work Sans", sans-serif;
-		color: #333333;
 		background: #FFFFFF;
 	}
 
 	:global(button) {
+		font-family: "Work Sans", sans-serif;
+
 		&:focus {
 			outline: none;
 		}
