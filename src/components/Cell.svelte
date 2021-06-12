@@ -14,20 +14,22 @@
     class="cell" 
     on:click={toggleCell}
     on:mouseover={() => { if(isMouseDown) toggleCell() }}
-    style={`border-left: ${!c && "1px solid #191919"}; border-top: ${!r && "1px solid #191919"}; background: ${cell ? "red" : "transparent"}`} 
+    style={`border-left: ${!c && "1px solid #E8EAEC"}; border-top: ${!r && "1px solid #E8EAEC"}; background: ${cell ? "rgb(121, 150, 236)" : "transparent"}`} 
 />
 
 <style lang="scss">
     .cell {
-        width: 16px;
-        height: 16px;
-        border-right: 1px solid #191919;
-        border-bottom: 1px solid #191919;
+        width: 20px;
+        height: 20px;
+        border-right: 1px solid #E8EAEC;
+        border-bottom: 1px solid #E8EAEC;
         cursor: pointer;
         user-select: none;
 
         &:hover {
-            background: rgba(0, 0, 0, 0.1) !important;
+            @media (hover: hover) and (pointer: fine) {
+                background: rgba(121, 150, 236, 0.4) !important;
+            }
         }
     }
 </style>

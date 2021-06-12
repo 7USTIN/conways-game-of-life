@@ -19,7 +19,7 @@
 
 	:global(body) {
 		font-family: "Work Sans", sans-serif;
-		color: #191919;
+		color: #333333;
 		background: #FFFFFF;
 	}
 
