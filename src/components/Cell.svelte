@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { running } from "../utils/stores"
+    import { running, next } from "../utils/stores"
 
     export let cell: number 
     export let r: number
@@ -18,7 +18,7 @@
         }
     }
 
-    $: if($running) {
+    $: if($running || $next) {
         nextGen()
     }
 </script>

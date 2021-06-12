@@ -1,6 +1,7 @@
 <script lang="ts">
     import { generateGrid } from "../utils/generateGrid"
     import { getNeighbors } from "../utils/getNeighbors";
+    import Controls from "./Controls.svelte";
     import Cell from "./Cell.svelte"
 
     let width: number
@@ -16,6 +17,8 @@
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
+
+<Controls on:clear={() => grid = []} />
 
 <section>
     <div class="grid" style={`grid-template-columns: repeat(${numCols}, 1fr)`}>

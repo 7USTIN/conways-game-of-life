@@ -1,5 +1,8 @@
 <script lang="ts">
-    import { running } from "../utils/stores"
+    import { running, next } from "../utils/stores"
+    import { createEventDispatcher } from "svelte"
+
+    const dispatch = createEventDispatcher()
 
     let timeout 
 
@@ -13,10 +16,20 @@
         clearTimeout(timeout)
     }
 
+    const handleClear = () => dispatch("clear")
+
+    const handleNext = () => next.update(prev => prev + 1)
+
     const controls = e => {
         if(e.key === " " || e.code === "Space") {
             $running ? stopRunning() : startRunning()
+        } else if(e.key === "e" || e.code === "KeyE") {
+            handleClear()
+        } else if(e.key === "w" || e.code === "KeyW") {
+            handleNext()
         }
+
+        console.log(e)
     }
 </script>
 
@@ -28,6 +41,8 @@
     {:else}
         <button on:click={stopRunning}>Stop [space]</button>
     {/if}
+    <button on:click={handleNext}>Next [w]</button>
+    <button on:click={handleClear}>Clear [e]</button>
 </section>
 
 <style lang="scss">
@@ -40,6 +55,7 @@
         bottom: 0;
         background: rgb(117, 117, 117, 0.33);
         padding: 15px;
+        user-select: none;
 
         button {
             border: none;
