@@ -1,8 +1,7 @@
 <script lang="ts">
     import { running, next } from "../utils/stores"
-    import { createEventDispatcher } from "svelte"
 
-    const dispatch = createEventDispatcher()
+    export let grid: any[]
 
     let timeout 
 
@@ -16,17 +15,27 @@
         clearTimeout(timeout)
     }
 
-    const handleClear = () => dispatch("clear")
-
     const handleNext = () => next.update(prev => prev + 1)
 
-    const controls = e => {
+    const handleClear = () => grid = []
+
+    const handleRandomize = () => {
+        for(let i in grid) {
+            for(let j in grid[i]) {
+                grid[i][j] = (Math.random() > 0.8 ? 1 : 0)
+            }
+        }
+    }
+
+    const controls = (e: KeyboardEvent) => {
         if(e.key === " " || e.code === "Space") {
             $running ? stopRunning() : startRunning()
-        } else if(e.key === "e" || e.code === "KeyE") {
-            handleClear()
         } else if(e.key === "w" || e.code === "KeyW") {
             handleNext()
+        } else if(e.key === "e" || e.code === "KeyE") {
+            handleClear()
+        } else if(e.key === "q" || e.code === "KeyQ") {
+            handleRandomize()
         }
 
         console.log(e)
@@ -43,6 +52,7 @@
     {/if}
     <button on:click={handleNext}>Next [w]</button>
     <button on:click={handleClear}>Clear [e]</button>
+    <button on:click={handleRandomize}>Randomize [q]</button>
 </section>
 
 <style lang="scss">
@@ -62,6 +72,7 @@
             border-radius: 5px;
             background: rgb(76, 115, 230);
             padding: 10px 15px;
+            margin-right: 10px;
             font-weight: 500;
             color: #FFFFFF;
             font-size: 18px;

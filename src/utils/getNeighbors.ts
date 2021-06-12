@@ -13,12 +13,15 @@ export const getNeighbors = (grid: any[], c:number, r:number, numRows:number, nu
     let neighbors = 0
     
     operations.forEach(([x, y]) => {
-        const newR = r + y
-        const newC = c + x
+        let newR = r + y
+        let newC = c + x
 
-        if (newR >= 0 && newR < numRows && newC >= 0 && newC < numCols) {
-            neighbors += grid[newR][newC]
-        }
+        if(newR < 0) newR = numRows - 1 
+        if(newR >= numRows) newR = 0 
+        if(newC < 0) newC = numCols - 1 
+        if(newC >= numCols) newC = 0 
+
+        neighbors += grid[newR][newC]
     })
     
     return neighbors

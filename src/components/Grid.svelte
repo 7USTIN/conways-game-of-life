@@ -18,7 +18,7 @@
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
 
-<Controls on:clear={() => grid = []} />
+<Controls bind:grid />
 
 <section>
     <div class="grid" style={`grid-template-columns: repeat(${numCols}, 1fr)`}>
