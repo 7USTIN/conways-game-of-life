@@ -3,7 +3,9 @@
 
     export let grid: any[]
 
-    let timeout 
+    let timeout
+    let generation = 0
+    let population = 0
 
     const startRunning = () => {
         running.update(prev => prev + 1)
@@ -17,9 +19,14 @@
 
     const handleNext = () => next.update(prev => prev + 1)
 
-    const handleClear = () => grid = []
+    const handleClear = () => {
+        generation = 0
+        grid = []
+    }
 
     const handleRandomize = () => {
+        generation = 0
+
         for(let i in grid) {
             for(let j in grid[i]) {
                 grid[i][j] = (Math.random() > 0.8 ? 1 : 0)
@@ -40,6 +47,24 @@
 
         console.log(e)
     }
+
+    const getPopulation = () => {
+        population = 0
+
+        for(let i in grid) {
+            for(let j in grid[i]) {
+                population += grid[i][j] 
+            }
+        }
+    }
+
+    $: if(grid) {
+        getPopulation()
+    }
+
+    $: if($running || $next) {
+        generation++
+    }
 </script>
 
 <svelte:window on:keyup={controls} />
@@ -50,9 +75,13 @@
     {:else}
         <button on:click={stopRunning}>Stop [space]</button>
     {/if}
+    
     <button on:click={handleNext}>Next [w]</button>
     <button on:click={handleClear}>Clear [e]</button>
     <button on:click={handleRandomize}>Randomize [q]</button>
+
+    <p>Generation: {generation}</p>
+    <p>Population: {population}</p>
 </section>
 
 <style lang="scss">
@@ -66,6 +95,8 @@
         background: rgb(117, 117, 117, 0.33);
         padding: 15px;
         user-select: none;
+        display: flex;
+        align-items: center;
 
         button {
             border: none;
@@ -82,6 +113,16 @@
             &:hover {
                 background: hsl(225, 75%, 52.5%);
             }
+        }
+
+        p {
+            padding: 0 15px;
+            margin-right: 10px;
+            font-weight: 600;
+            color: rgb(76, 115, 230);
+            text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
+            font-size: 22px;
+            text-transform: uppercase;
         }
     }
 </style>

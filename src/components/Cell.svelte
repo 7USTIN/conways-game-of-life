@@ -16,6 +16,7 @@
         } else if (cell === 0 && neighbors === 3) {
             cell = 1;
         }
+        
     }
 
     $: if($running || $next) {
