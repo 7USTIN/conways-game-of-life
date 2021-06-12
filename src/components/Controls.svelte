@@ -1,10 +1,19 @@
 <script lang="ts">
     import { running } from "../utils/stores"
 
-    const toggleRunning = () => running.update(prev => !prev)
+    const toggleRunning = () => {
+        running.update(prev => prev + 1)
+        setTimeout(toggleRunning, 100)
+    }
 
-    $: console.log($running)
+    const controls = e => {
+        if(e.key === " " || e.code === "Space") {
+            toggleRunning()
+        }
+    }
 </script>
+
+<svelte:window on:keyup={controls} />
 
 <section>
     <button on:click={toggleRunning}>{$running ? "Stop" : "Start"} [space]</button>

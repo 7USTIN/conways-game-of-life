@@ -1,5 +1,6 @@
 <script lang="ts">
     import { generateGrid } from "../utils/generateGrid"
+    import { getNeighbors } from "../utils/getNeighbors";
     import Cell from "./Cell.svelte"
 
     let width: number
@@ -9,7 +10,9 @@
     $: numCols = Math.floor(width / 20)
     $: numRows = Math.floor(height / 20)
 
-    $: if(numRows || numCols) grid = generateGrid(grid, numCols, numRows)
+    $: if(numRows || numCols) {
+        grid = generateGrid(grid, numCols, numRows)
+    }
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
@@ -18,7 +21,7 @@
     <div class="grid" style={`grid-template-columns: repeat(${numCols}, 1fr)`}>
         {#each grid as row, r (r)}
             {#each row as cell, c (c)}
-                <Cell bind:cell {r} {c} />
+                <Cell bind:cell {r} {c} neighbors={getNeighbors(grid, c, r, numRows, numCols)} />
             {/each}
         {/each}
     </div>

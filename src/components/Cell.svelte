@@ -1,11 +1,26 @@
 <script lang="ts">
-    export let cell: number
+    import { running } from "../utils/stores"
+
+    export let cell: number 
     export let r: number
     export let c: number
+    export let neighbors: number
 
     let isMouseDown = false
 
     const toggleCell = () => cell = cell ? 0 : 1
+
+    const nextGen = () => {
+        if (neighbors < 2 || neighbors > 3) {
+            cell = 0;
+        } else if (cell === 0 && neighbors === 3) {
+            cell = 1;
+        }
+    }
+
+    $: if($running) {
+        nextGen()
+    }
 </script>
 
 <svelte:window on:mouseup={() => isMouseDown = false} on:mousedown={() => isMouseDown = true} />
