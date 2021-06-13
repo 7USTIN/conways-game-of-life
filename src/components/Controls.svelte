@@ -6,10 +6,11 @@
     let timeout
     let generation = 0
     let population = 0
+    let lifespan = 150
 
     const startRunning = () => {
         running.update(prev => prev + 1)
-        timeout = setTimeout(startRunning, 100)
+        timeout = setTimeout(startRunning, lifespan)
     }
 
     const stopRunning = () => {
@@ -79,6 +80,9 @@
     <button on:click={handleNext} disabled={!population}>Next [w]</button>
     <button on:click={handleClear} disabled={!population}>Clear [e]</button>
     <button on:click={handleRandomize}>Randomize [q]</button>
+    
+    <input type="range" name="lifespan" bind:value={lifespan} min="10" max="1000" />
+    <label for="lifespan">{lifespan}ms</label>
 
     <div class="counter">
         <p>Generation: {generation}</p>
@@ -126,6 +130,18 @@
             &:hover {
                 background: hsl(225, 75%, 52.5%);
             }
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        input {
+            pointer-events: auto;
+
+            &:focus {
+                outline: none;
+            }
         }
 
         .counter {
@@ -136,7 +152,7 @@
             p {
                 padding: 3px 15px;
                 font-weight: 600;
-                color: hsl(204, 10%, 30%);
+                color: hsl(204, 10%, 25%);
                 text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
                 font-size: 16px;
                 text-transform: uppercase;
