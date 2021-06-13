@@ -10,6 +10,8 @@
     let density = 20
 
     const startRunning = () => {
+        if(!population) return
+
         running.update(prev => prev + 1)
         timeout = setTimeout(startRunning, lifespan)
     }
@@ -19,7 +21,9 @@
         clearTimeout(timeout)
     }
 
-    const handleNext = () => next.update(prev => prev + 1)
+    const handleNext = () => {
+        next.update(prev => prev + 1)
+    }
 
     const handleClear = () => {
         generation = 0
@@ -65,9 +69,15 @@
     $: if($running || $next) {
         generation++
     }
+
+    $: if(!population) {
+        stopRunning()
+    }
 </script>
 
 <svelte:window on:keyup={controls} />
+
+<a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules" target="_blank">?</a>
 
 <section>
     {#if !$running}
@@ -93,6 +103,27 @@
 </section>
 
 <style lang="scss">
+    a {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 999999px;
+        background: hsl(204, 10%, 70%);
+        color: #FFFFFF;
+        font-size: 25px;
+        transition: 100ms;
+
+        &:hover {
+            background: hsl(204, 10%, 60%);
+        }
+    }
+
     section {
         position: fixed;
         width: 100vw;
@@ -100,7 +131,7 @@
         left: 0;
         right: 0;
         bottom: 0;
-        padding: 0 15px;
+        padding: 15px;
         background: rgb(117, 117, 117, 0.45);
         user-select: none;
         display: flex;
@@ -112,7 +143,7 @@
             border-radius: 5px;
             background: rgb(76, 115, 230);
             padding: 10px 15px;
-            margin: 15px 10px 15px 0;
+            margin-right: 10px;
             font-weight: 500;
             color: #FFFFFF;
             font-size: 18px;
@@ -152,7 +183,7 @@
             flex-direction: column;
 
             p {
-                padding: 3px 15px;
+                padding: 0 15px;
                 font-weight: 600;
                 color: hsl(204, 10%, 25%);
                 text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
