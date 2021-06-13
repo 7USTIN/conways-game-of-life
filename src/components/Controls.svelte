@@ -7,6 +7,7 @@
     let generation = 0
     let population = 0
     let lifespan = 150
+    let density = 20
 
     const startRunning = () => {
         running.update(prev => prev + 1)
@@ -30,7 +31,7 @@
 
         for(let i in grid) {
             for(let j in grid[i]) {
-                grid[i][j] = (Math.random() > 0.8 ? 1 : 0)
+                grid[i][j] = (Math.random() > (100 - density) / 100 ? 1 : 0)
             }
         }
     }
@@ -45,8 +46,6 @@
         } else if(e.key === "q" || e.code === "KeyQ") {
             handleRandomize()
         }
-
-        console.log(e)
     }
 
     const getPopulation = () => {
@@ -83,6 +82,9 @@
     
     <input type="range" name="lifespan" bind:value={lifespan} min="10" max="1000" />
     <label for="lifespan">{lifespan}ms</label>
+
+    <input type="range" name="density" bind:value={density} min="0" max="100" />
+    <label for="density">{density}%</label>
 
     <div class="counter">
         <p>Generation: {generation}</p>
