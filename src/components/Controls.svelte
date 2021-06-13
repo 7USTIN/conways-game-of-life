@@ -71,17 +71,19 @@
 
 <section>
     {#if !$running}
-        <button on:click={startRunning}>Start [space]</button>
+        <button on:click={startRunning} disabled={!population}>Start [space]</button>
     {:else}
-        <button on:click={stopRunning}>Stop [space]</button>
+        <button on:click={stopRunning} disabled={!population}>Stop [space]</button>
     {/if}
     
-    <button on:click={handleNext}>Next [w]</button>
-    <button on:click={handleClear}>Clear [e]</button>
+    <button on:click={handleNext} disabled={!population}>Next [w]</button>
+    <button on:click={handleClear} disabled={!population}>Clear [e]</button>
     <button on:click={handleRandomize}>Randomize [q]</button>
 
-    <p>Generation: {generation}</p>
-    <p>Population: {population}</p>
+    <div class="counter">
+        <p>Generation: {generation}</p>
+        <p>Population: {population}</p>
+    </div>
 </section>
 
 <style lang="scss">
@@ -92,37 +94,53 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgb(117, 117, 117, 0.33);
-        padding: 15px;
+        padding: 0 15px;
+        background: rgb(117, 117, 117, 0.45);
         user-select: none;
         display: flex;
         align-items: center;
+        pointer-events: none;
 
         button {
             border: none;
             border-radius: 5px;
             background: rgb(76, 115, 230);
             padding: 10px 15px;
-            margin-right: 10px;
+            margin: 15px 10px 15px 0;
             font-weight: 500;
             color: #FFFFFF;
             font-size: 18px;
             cursor: pointer;
             transition: 100ms;
+            pointer-events: auto;
+
+            &:disabled {
+                background: hsl(225, 100%, 72.5%);
+                cursor: not-allowed;
+
+                &:hover {
+                    background: hsl(225, 100%, 72.5%);
+                }
+            }
 
             &:hover {
                 background: hsl(225, 75%, 52.5%);
             }
         }
 
-        p {
-            padding: 0 15px;
-            margin-right: 10px;
-            font-weight: 600;
-            color: rgb(76, 115, 230);
-            text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
-            font-size: 22px;
-            text-transform: uppercase;
+        .counter {
+            margin-left: auto;
+            display: flex;
+            flex-direction: column;
+
+            p {
+                padding: 3px 15px;
+                font-weight: 600;
+                color: hsl(204, 10%, 30%);
+                text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
+                font-size: 16px;
+                text-transform: uppercase;
+            }
         }
     }
 </style>
