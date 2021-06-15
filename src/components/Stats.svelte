@@ -12,8 +12,10 @@
 	const enableDrag = () => (isDragged = true);
 
 	const getMousePos = (e) => {
-		x = e.pageX - dragArea.clientWidth / 2 + "px";
-		y = e.pageY - dragArea.clientHeight + "px";
+		if (isDragged) {
+			x = e.pageX - dragArea.clientWidth / 2 + "px";
+			y = e.pageY - dragArea.clientHeight + "px";
+		}
 	};
 
 	$: if (isDragged) {
@@ -23,7 +25,7 @@
 
 <svelte:window on:mousemove={getMousePos} on:mouseleave={disableDrag} />
 
-<div class="stats" style={isDragged && `top: ${y}; left: ${x}`}>
+<div class="stats" style={`top: ${y}; left: ${x}`}>
 	<div
 		class:isDragged
 		class="drag-area"
