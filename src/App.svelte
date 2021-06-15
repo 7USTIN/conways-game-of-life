@@ -7,7 +7,7 @@
 </main>
 
 <style lang="scss">
-	@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+	@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 	:global(*) {
 		margin: 0;
@@ -17,7 +17,8 @@
 
 	:global(body) {
 		font-family: "Work Sans", sans-serif;
-		background: #FFFFFF;
+		background: #ffffff;
+		color: #252525;
 	}
 
 	:global(button) {

@@ -1,195 +1,208 @@
 <script lang="ts">
-    import { running, next } from "../utils/stores"
+	import { running, next } from "../utils/stores";
+	import Stats from "./Stats.svelte";
 
-    export let grid: any[]
+	export let grid: any[];
 
-    let timeout
-    let generation = 0
-    let population = 0
-    let lifespan = 150
-    let density = 20
+	let timeout;
+	let generation = 0;
+	let population = 0;
+	let lifespan = 150;
+	let density = 20;
 
-    const startRunning = () => {
-        if(!population) return
+	const startRunning = () => {
+		if (!population) return;
 
-        running.update(prev => prev + 1)
-        timeout = setTimeout(startRunning, lifespan)
-    }
+		running.update((prev) => prev + 1);
+		timeout = setTimeout(startRunning, lifespan);
+	};
 
-    const stopRunning = () => {
-        running.set(0)
-        clearTimeout(timeout)
-    }
+	const stopRunning = () => {
+		running.set(0);
+		clearTimeout(timeout);
+	};
 
-    const handleNext = () => {
-        next.update(prev => prev + 1)
-    }
+	const handleNext = () => {
+		next.update((prev) => prev + 1);
+	};
 
-    const handleClear = () => {
-        generation = 0
-        grid = []
-    }
+	const handleClear = () => {
+		generation = 0;
+		grid = [];
+	};
 
-    const handleRandomize = () => {
-        generation = 0
+	const handleRandomize = () => {
+		generation = 0;
 
-        for(let i in grid) {
-            for(let j in grid[i]) {
-                grid[i][j] = (Math.random() > (100 - density) / 100 ? 1 : 0)
-            }
-        }
-    }
+		for (let i in grid) {
+			for (let j in grid[i]) {
+				grid[i][j] = Math.random() > (100 - density) / 100 ? 1 : 0;
+			}
+		}
+	};
 
-    const controls = (e: KeyboardEvent) => {
-        if(e.key === " " || e.code === "Space") {
-            $running ? stopRunning() : startRunning()
-        } else if(e.key === "w" || e.code === "KeyW") {
-            handleNext()
-        } else if(e.key === "e" || e.code === "KeyE") {
-            handleClear()
-        } else if(e.key === "q" || e.code === "KeyQ") {
-            handleRandomize()
-        }
-    }
+	const controls = (e: KeyboardEvent) => {
+		if (e.key === " " || e.code === "Space") {
+			$running ? stopRunning() : startRunning();
+		} else if (e.key === "w" || e.code === "KeyW") {
+			handleNext();
+		} else if (e.key === "e" || e.code === "KeyE") {
+			handleClear();
+		} else if (e.key === "q" || e.code === "KeyQ") {
+			handleRandomize();
+		}
+	};
 
-    const getPopulation = () => {
-        population = 0
+	const getPopulation = () => {
+		population = 0;
 
-        for(let i in grid) {
-            for(let j in grid[i]) {
-                population += grid[i][j] 
-            }
-        }
-    }
+		for (let i in grid) {
+			for (let j in grid[i]) {
+				population += grid[i][j];
+			}
+		}
+	};
 
-    $: if(grid) {
-        getPopulation()
-    }
+	$: if (grid) {
+		getPopulation();
+	}
 
-    $: if($running || $next) {
-        generation++
-    }
+	$: if ($running || $next) {
+		generation++;
+	}
 
-    $: if(!population) {
-        stopRunning()
-    }
+	$: if (!population) {
+		generation = 0;
+		stopRunning();
+	}
 </script>
 
 <svelte:window on:keyup={controls} />
 
-<a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules" target="_blank">?</a>
+<Stats {population} {generation} />
+
+<a
+	href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules"
+	target="_blank">?</a
+>
 
 <section>
-    {#if !$running}
-        <button on:click={startRunning} disabled={!population}>Start [space]</button>
-    {:else}
-        <button on:click={stopRunning} disabled={!population}>Stop [space]</button>
-    {/if}
-    
-    <button on:click={handleNext} disabled={!population}>Next [w]</button>
-    <button on:click={handleClear} disabled={!population}>Clear [e]</button>
-    <button on:click={handleRandomize}>Randomize [q]</button>
-    
-    <input type="range" name="lifespan" bind:value={lifespan} min="10" max="1000" />
-    <label for="lifespan">{lifespan}ms</label>
+	{#if !$running}
+		<button on:click={startRunning} disabled={!population}
+			>Start [space]</button
+		>
+	{:else}
+		<button on:click={stopRunning} disabled={!population}
+			>Stop [space]</button
+		>
+	{/if}
 
-    <input type="range" name="density" bind:value={density} min="0" max="100" />
-    <label for="density">{density}%</label>
+	<button on:click={handleNext} disabled={!population}>Next [w]</button>
+	<button on:click={handleClear} disabled={!population}>Clear [e]</button>
+	<button on:click={handleRandomize}>Randomize [q]</button>
 
-    <div class="counter">
-        <p>Generation: {generation}</p>
-        <p>Population: {population}</p>
-    </div>
+	<input
+		type="range"
+		name="lifespan"
+		bind:value={lifespan}
+		min="10"
+		max="1000"
+	/>
+	<label for="lifespan">{lifespan}ms</label>
+
+	<input type="range" name="density" bind:value={density} min="0" max="100" />
+	<label for="density">{density}%</label>
 </section>
 
 <style lang="scss">
-    a {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        text-decoration: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 999999px;
-        background: hsl(204, 10%, 70%);
-        color: #FFFFFF;
-        font-size: 25px;
-        transition: 100ms;
+	a {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		width: 40px;
+		height: 40px;
+		text-decoration: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 999999px;
+		background: hsl(204, 10%, 70%);
+		color: #ffffff;
+		font-size: 27.5px;
+		transition: 100ms;
 
-        &:hover {
-            background: hsl(204, 10%, 60%);
-        }
-    }
+		&:hover {
+			background: hsl(204, 10%, 60%);
+		}
+	}
 
-    section {
-        position: fixed;
-        width: 100vw;
-        height: auto;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        padding: 15px;
-        background: rgb(117, 117, 117, 0.45);
-        user-select: none;
-        display: flex;
-        align-items: center;
-        pointer-events: none;
+	section {
+		position: fixed;
+		width: 100vw;
+		height: auto;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		padding: 15px;
+		background: rgb(117, 117, 117, 0.45);
+		user-select: none;
+		display: flex;
+		align-items: center;
+		pointer-events: none;
 
-        button {
-            border: none;
-            border-radius: 5px;
-            background: rgb(76, 115, 230);
-            padding: 10px 15px;
-            margin-right: 10px;
-            font-weight: 500;
-            color: #FFFFFF;
-            font-size: 18px;
-            cursor: pointer;
-            transition: 100ms;
-            pointer-events: auto;
+		button {
+			border: none;
+			border-radius: 5px;
+			background: rgb(76, 115, 230);
+			padding: 10px 15px;
+			margin-right: 10px;
+			font-weight: 500;
+			color: #ffffff;
+			font-size: 18px;
+			cursor: pointer;
+			transition: 100ms;
+			pointer-events: auto;
 
-            &:disabled {
-                background: hsl(225, 100%, 72.5%);
-                cursor: not-allowed;
+			&:disabled {
+				background: hsl(225, 100%, 72.5%);
+				cursor: not-allowed;
 
-                &:hover {
-                    background: hsl(225, 100%, 72.5%);
-                }
-            }
+				&:hover {
+					background: hsl(225, 100%, 72.5%);
+				}
+			}
 
-            &:hover {
-                background: hsl(225, 75%, 52.5%);
-            }
+			&:hover {
+				background: hsl(225, 75%, 52.5%);
+			}
 
-            &:focus {
-                outline: none;
-            }
-        }
+			&:focus {
+				outline: none;
+			}
+		}
 
-        input {
-            pointer-events: auto;
+		input {
+			pointer-events: auto;
 
-            &:focus {
-                outline: none;
-            }
-        }
+			&:focus {
+				outline: none;
+			}
+		}
 
-        .counter {
-            margin-left: auto;
-            display: flex;
-            flex-direction: column;
+		.counter {
+			// margin-left: auto;
+			display: flex;
+			flex-direction: column;
 
-            p {
-                padding: 0 15px;
-                font-weight: 600;
-                color: hsl(204, 10%, 25%);
-                text-shadow: -2px 0 #FFFFFF, 0 2px #FFFFFF, 2px 0 #FFFFFF, 0 -2px #FFFFFF;
-                font-size: 16px;
-                text-transform: uppercase;
-            }
-        }
-    }
+			p {
+				padding: 0 15px;
+				font-weight: 600;
+				color: hsl(204, 10%, 25%);
+				text-shadow: -2px 0 #ffffff, 0 2px #ffffff, 2px 0 #ffffff,
+					0 -2px #ffffff;
+				font-size: 16px;
+				text-transform: uppercase;
+			}
+		}
+	}
 </style>
