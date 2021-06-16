@@ -4,28 +4,38 @@
 
 	let isDragged = false;
 	let dragArea: HTMLDivElement;
-	let x: string;
-	let y: string;
+	let x: number;
+	let y: number;
 
 	const disableDrag = () => (isDragged = false);
 
-	const enableDrag = () => (isDragged = true);
-
+	const enableDrag = (e) => {
+		isDragged = true;
+		getMousePos(e);
+	};
 	const getMousePos = (e) => {
 		if (isDragged) {
-			x = e.pageX - dragArea.clientWidth / 2 + "px";
-			y = e.pageY - dragArea.clientHeight + "px";
+			x = e.pageX - dragArea.clientWidth / 2;
+			y = e.pageY - dragArea.clientHeight;
+		}
+		if (y > window.innerHeight - 94) {
+			y = window.innerHeight - 94;
+		}
+		if (x > window.innerWidth - 166) {
+			x = window.innerWidth - 166;
 		}
 	};
 
 	$: if (isDragged) {
 		document.body.style.pointerEvents = "none";
+	} else {
+		document.body.style.pointerEvents = "auto";
 	}
 </script>
 
 <svelte:window on:mousemove={getMousePos} on:mouseleave={disableDrag} />
 
-<div class="stats" style={`top: ${y}; left: ${x}`}>
+<div class="stats" style={`top: ${y > 0 ? y : 0}px; left: ${x > 0 ? x : 0}px`}>
 	<div
 		class:isDragged
 		class="drag-area"
@@ -64,13 +74,23 @@
 			width: 100%;
 			background: hsl(0, 0%, 95%);
 			padding: 5px 5px;
+			color: #5f5f5f;
 			cursor: move;
 			cursor: grab;
 			cursor: -moz-grab;
 			cursor: -webkit-grab;
+			transition: 100ms;
+
+			&:hover {
+				color: rgb(76, 115, 230);
+			}
 
 			i {
 				font-size: 18px;
+			}
+
+			p {
+				font-size: 15px;
 			}
 		}
 

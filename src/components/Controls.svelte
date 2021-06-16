@@ -188,21 +188,5 @@
 				outline: none;
 			}
 		}
-
-		.counter {
-			// margin-left: auto;
-			display: flex;
-			flex-direction: column;
-
-			p {
-				padding: 0 15px;
-				font-weight: 600;
-				color: hsl(204, 10%, 25%);
-				text-shadow: -2px 0 #ffffff, 0 2px #ffffff, 2px 0 #ffffff,
-					0 -2px #ffffff;
-				font-size: 16px;
-				text-transform: uppercase;
-			}
-		}
 	}
 </style>
