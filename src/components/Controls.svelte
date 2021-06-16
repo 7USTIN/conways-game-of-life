@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { running, next } from "../utils/stores";
 	import Stats from "./Stats.svelte";
+	import Settings from "./Settings.svelte";
 
 	export let grid: any[];
 
@@ -83,8 +84,10 @@
 
 <a
 	href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules"
-	target="_blank">?</a
+	target="_blank"
 >
+	<p>?</p>
+</a>
 
 <section>
 	{#if !$running}
@@ -101,17 +104,7 @@
 	<button on:click={handleClear} disabled={!population}>Clear [e]</button>
 	<button on:click={handleRandomize}>Randomize [q]</button>
 
-	<input
-		type="range"
-		name="lifespan"
-		bind:value={lifespan}
-		min="10"
-		max="1000"
-	/>
-	<label for="lifespan">{lifespan}ms</label>
-
-	<input type="range" name="density" bind:value={density} min="0" max="100" />
-	<label for="density">{density}%</label>
+	<Settings bind:lifespan bind:density />
 </section>
 
 <style lang="scss">
@@ -126,13 +119,18 @@
 		justify-content: center;
 		align-items: center;
 		border-radius: 999999px;
-		background: hsl(204, 10%, 70%);
+		background: hsl(0, 0%, 70%);
 		color: #ffffff;
 		font-size: 27.5px;
 		transition: 100ms;
+		font-family: sans-serif;
 
 		&:hover {
-			background: hsl(204, 10%, 60%);
+			background: hsl(0, 0%, 60%);
+		}
+
+		p {
+			margin-top: 2px;
 		}
 	}
 
@@ -140,6 +138,7 @@
 		position: fixed;
 		width: 100vw;
 		height: auto;
+		z-index: 10;
 		left: 0;
 		right: 0;
 		bottom: 0;
@@ -175,14 +174,6 @@
 			&:hover {
 				background: hsl(225, 75%, 52.5%);
 			}
-
-			&:focus {
-				outline: none;
-			}
-		}
-
-		input {
-			pointer-events: auto;
 
 			&:focus {
 				outline: none;

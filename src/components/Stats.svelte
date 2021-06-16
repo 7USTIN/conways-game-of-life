@@ -59,7 +59,7 @@
 		min-width: 150px;
 		top: 0;
 		left: 0;
-		z-index: 99999;
+		z-index: 20;
 		background: white;
 		margin: 8px;
 		box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
