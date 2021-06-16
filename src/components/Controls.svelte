@@ -142,7 +142,7 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		padding: 15px;
+		padding: 15px 25px;
 		background: rgb(117, 117, 117, 0.45);
 		user-select: none;
 		display: flex;
