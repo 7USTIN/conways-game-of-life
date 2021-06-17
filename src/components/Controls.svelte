@@ -86,6 +86,7 @@
 <a
 	href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Rules"
 	target="_blank"
+	rel="noreferrer"
 >
 	<p>?</p>
 </a>
