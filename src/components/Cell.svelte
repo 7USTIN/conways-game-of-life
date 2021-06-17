@@ -53,5 +53,10 @@
 				background: rgba(76, 115, 230, 0.4) !important;
 			}
 		}
+
+		@media screen and (max-width: 825px) {
+			width: 15px;
+			height: 15px;
+		}
 	}
 </style>

@@ -71,6 +71,10 @@
 			&:hover {
 				color: hsl(225, 75%, 52.5%);
 			}
+
+			@media screen and (max-width: 825px) {
+				font-size: 30px;
+			}
 		}
 
 		.background {
@@ -97,6 +101,10 @@
 				rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
 			user-select: none;
 			min-width: 225px;
+
+			@media screen and (max-width: 825px) {
+				transform: translate(-90%, -102.5%);
+			}
 
 			.header {
 				width: 100%;

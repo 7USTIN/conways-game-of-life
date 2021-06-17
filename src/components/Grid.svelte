@@ -6,10 +6,17 @@
 
 	let width: number;
 	let height: number;
+	let numCols: number;
+	let numRows: number;
 	let grid = [];
 
-	$: numCols = Math.floor(width / 20);
-	$: numRows = Math.floor(height / 20);
+	$: if (width > 825) {
+		numCols = Math.floor(width / 20);
+		numRows = Math.floor(height / 20);
+	} else {
+		numCols = Math.floor(width / 15);
+		numRows = Math.floor(height / 15);
+	}
 
 	$: if (numRows || numCols) {
 		grid = generateGrid(grid, numCols, numRows);

@@ -68,6 +68,10 @@
 		overflow: hidden;
 		pointer-events: auto;
 
+		@media screen and(max-width: 825px) {
+			min-width: 130px;
+		}
+
 		.drag-area {
 			display: flex;
 			align-items: center;
@@ -87,10 +91,18 @@
 
 			i {
 				font-size: 18px;
+
+				@media screen and(max-width: 825px) {
+					font-size: 16px;
+				}
 			}
 
 			p {
 				font-size: 15px;
+
+				@media screen and(max-width: 825px) {
+					font-size: 14px;
+				}
 			}
 		}
 
@@ -102,6 +114,10 @@
 
 		.info {
 			padding: 5px 0 5px 5px;
+
+			@media screen and(max-width: 825px) {
+				font-size: 14px;
+			}
 		}
 	}
 </style>

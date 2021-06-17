@@ -10,6 +10,7 @@
 	let population = 0;
 	let lifespan = 150;
 	let density = 20;
+	let width: number;
 
 	const startRunning = () => {
 		if (!population) return;
@@ -78,7 +79,7 @@
 	}
 </script>
 
-<svelte:window on:keyup={controls} />
+<svelte:window bind:innerWidth={width} on:keyup={controls} />
 
 <Stats {population} {generation} />
 
@@ -91,18 +92,24 @@
 
 <section>
 	{#if !$running}
-		<button on:click={startRunning} disabled={!population}
-			>Start [space]</button
-		>
+		<button on:click={startRunning} disabled={!population}>
+			Start {width > 850 ? "[space]" : ""}
+		</button>
 	{:else}
-		<button on:click={stopRunning} disabled={!population}
-			>Stop [space]</button
-		>
+		<button on:click={stopRunning} disabled={!population}>
+			Stop {width > 850 ? "[space]" : ""}
+		</button>
 	{/if}
 
-	<button on:click={handleNext} disabled={!population}>Next [w]</button>
-	<button on:click={handleClear} disabled={!population}>Clear [e]</button>
-	<button on:click={handleRandomize}>Randomize [q]</button>
+	<button on:click={handleNext} disabled={!population}>
+		Next {width > 850 ? "[w]" : ""}
+	</button>
+	<button on:click={handleClear} disabled={!population}>
+		Clear {width > 850 ? "[e]" : ""}
+	</button>
+	<button on:click={handleRandomize}>
+		Randomize {width > 850 ? "[q]" : ""}
+	</button>
 
 	<Settings bind:lifespan bind:density />
 </section>
@@ -124,6 +131,14 @@
 		font-size: 27.5px;
 		transition: 100ms;
 		font-family: sans-serif;
+
+		@media screen and(max-width: 825px) {
+			top: 15px;
+			right: 15px;
+			width: 30px;
+			height: 30px;
+			font-size: 20px;
+		}
 
 		&:hover {
 			background: hsl(0, 0%, 60%);
@@ -149,6 +164,10 @@
 		align-items: center;
 		pointer-events: none;
 
+		@media screen and (max-width: 825px) {
+			padding: 8px 5px;
+		}
+
 		button {
 			border: none;
 			border-radius: 5px;
@@ -161,6 +180,12 @@
 			cursor: pointer;
 			transition: 100ms;
 			pointer-events: auto;
+
+			@media screen and (max-width: 825px) {
+				padding: 10px 7px 10px 7px;
+				margin-right: 5px;
+				font-size: 13px;
+			}
 
 			&:disabled {
 				background: hsl(225, 100%, 72.5%);
